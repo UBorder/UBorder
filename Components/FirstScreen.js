@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button,TouchableOpacity } from 'react-native';
 
 export default function FirstScreen() {
   return (
     <View style={styles.container}>
       <Text>This is the first screen</Text>
-      
+      <TouchableOpacity>
+      <Button>Click</Button>
+      </TouchableOpacity>
     </View>
   );
 }

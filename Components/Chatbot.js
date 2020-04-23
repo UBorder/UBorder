@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button ,TouchableOpacity} from 'react-native';
 
 export default function Chatbot() {
   return (
     <View style={styles.container}>
-      <Text>this is the chatbot screen</Text>
-      
+
     </View>
   );
 }
