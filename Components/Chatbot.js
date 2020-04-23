@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Button ,TouchableOpacity} from 'react-native';
 export default function Chatbot() {
   return (
     <View style={styles.container}>
-
+    <Button>Click</Button>
     </View>
   );
 }
