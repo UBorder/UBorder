@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, Button ,TouchableOpacity} from 'react-native';
 
 export default function Chatbot() {
+  const numbew = 0;
   return (
     <View style={styles.container}>
-    <Button>Click</Button>
+    <Button title="Click" />
     </View>
   );
 }
