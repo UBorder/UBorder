@@ -6,7 +6,7 @@ export default function FirstScreen() {
     <View style={styles.container}>
       <Text>This is the first screen</Text>
       <TouchableOpacity>
-      <Button>Click</Button>
+      <Button title="click"></Button>
       </TouchableOpacity>
     </View>
   );
