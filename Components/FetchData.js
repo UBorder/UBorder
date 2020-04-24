@@ -11,7 +11,8 @@ export default class FetchData extends React.Component {
     _bootstrap = async () => {
 
         const username = await AsyncStorage.getItem('username');
-        this.props.navigation.navigate(username ? 'HomeScreen' : 'FirstScreen');
+        global.username=username
+        this.props.navigation.navigate(username ? 'FirstScreen' : 'FirstScreen');
     }
 
     render() {
