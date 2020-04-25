@@ -1,3 +1,6 @@
 [submodule "Components/Chatbot/--force"]
 	path = Components/Chatbot/--force
 	url = https://github.com/AbdulmajeedSM/wa-react-native-minimal
+[submodule "Components/wa-react-native-minimal"]
+	path = Components/wa-react-native-minimal
+	url = https://github.com/AbdulmajeedSM/wa-react-native-minimal
