@@ -1,0 +1,3 @@
+[submodule "Components/Chatbot/wa-react-native-minimal"]
+	path = Components/Chatbot/wa-react-native-minimal
+	url = https://github.com/tonydiaz/wa-react-native-minimal
