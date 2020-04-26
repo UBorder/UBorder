@@ -1,0 +1,55 @@
+Arguments: 
+  /usr/bin/node /usr/bin/yarn add expo
+
+PATH: 
+  /home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/home/Abdulmajeed/anaconda3/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/home/Abdulmajeed/.composer/vendor/bin:/home/Abdulmajeed/Downloads/hadoop-3.0.3/bin:/home/Abdulmajeed/Downloads/hadoop-3.0.3/sbin:/home/Abdulmajeed/Android/Sdk/emulator:/home/Abdulmajeed/Android/Sdk/tools:/home/Abdulmajeed/Android/Sdk/tools/bin:/home/Abdulmajeed/Android/Sdk/platform-tools:/home/Abdulmajeed/.local/bin:/home/Abdulmajeed/bin:/home/Abdulmajeed/Android/Sdk/emulator:/home/Abdulmajeed/Android/Sdk/tools:/home/Abdulmajeed/Android/Sdk/tools/bin:/home/Abdulmajeed/Android/Sdk/platform-tools:/home/Abdulmajeed/Downloads/hadoop-3.0.3/bin:/home/Abdulmajeed/Downloads/hadoop-3.0.3/sbin:/home/Abdulmajeed/Android/Sdk/emulator:/home/Abdulmajeed/Android/Sdk/tools:/home/Abdulmajeed/Android/Sdk/tools/bin:/home/Abdulmajeed/Android/Sdk/platform-tools:/home/Abdulmajeed/.local/bin:/home/Abdulmajeed/bin:/home/Abdulmajeed/Android/Sdk/emulator:/home/Abdulmajeed/Android/Sdk/tools:/home/Abdulmajeed/Android/Sdk/tools/bin:/home/Abdulmajeed/Android/Sdk/platform-tools:/home/Abdulmajeed/Downloads/hadoop-3.0.3/bin:/home/Abdulmajeed/Downloads/hadoop-3.0.3/sbin:/home/Abdulmajeed/Android/Sdk/emulator:/home/Abdulmajeed/Android/Sdk/tools:/home/Abdulmajeed/Android/Sdk/tools/bin:/home/Abdulmajeed/Android/Sdk/platform-tools
+
+Yarn version: 
+  1.19.1
+
+Node version: 
+  12.16.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: ENOSPC: no space left on device, copyfile '/home/Abdulmajeed/.cache/yarn/v6/npm-hermes-engine-0.2.1-25c0f1ff852512a92cb5c5cc47cf967e1e722ea2-integrity/node_modules/hermes-engine/win64-bin/hermes.exe' -> '/home/Abdulmajeed/Music/UBorder/UBorder/node_modules/hermes-engine/win64-bin/hermes.exe'
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "@react-native-community/masked-view": "0.1.6",
+      "@react-navigation/native": "^5.1.6",
+      "@react-navigation/stack": "^5.2.12",
+      "expo": "~37.0.3",
+      "react": "~16.9.0",
+      "react-dom": "~16.9.0",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
+      "react-native-gesture-handler": "~1.6.0",
+      "react-native-reanimated": "~1.7.0",
+      "react-native-safe-area-context": "0.7.3",
+      "react-native-screens": "~2.2.0",
+      "react-native-web": "~0.11.7",
+      "react-navigation": "^4.3.8"
+    },
+    "devDependencies": {
+      "babel-preset-expo": "~8.1.0",
+      "@babel/core": "^7.8.6"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
