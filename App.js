@@ -60,8 +60,8 @@ export default function App() {
   //   const longitude = 39.2526234;
   //   let radMetter = 2 * 1000; // Search withing 2 KM radius
 
-  //   const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter +'&language=en'+'&key=' + 'AIzaSyA8T_Kl0AIGpKN-9vqEPbZodiZDktG1KjY'
-
+  //   const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter +'&language=en'+'&key=' + ''
+ 
   //   fetch(url)
   //    .then(resp => resp.json())
   //     .then(res => {
