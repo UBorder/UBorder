@@ -52,55 +52,6 @@ const AppContainer = createAppContainer(
 
 export default function App() {
 
-
-
-  // useEffect(() => {
-  //   console.log("function called")
-  //   const latitude = 21.6035169; // you can update it with user's latitude & Longitude
-  //   const longitude = 39.2526234;
-  //   let radMetter = 2 * 1000; // Search withing 2 KM radius
-
-  //   const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter +'&language=en'+'&key=' + ''
- 
-  //   fetch(url)
-  //    .then(resp => resp.json())
-  //     .then(res => {
-  //       // console.log(res)
-  //       var places = [] // This Array WIll contain locations received from google
-  //       for (let googlePlace of res.results) {
-  //         var place = {}
-  //         var lat = googlePlace.geometry.location.lat;
-  //         var lng = googlePlace.geometry.location.lng;
-  //         var coordinate = {
-  //           latitude: lat,
-  //           longitude: lng,
-  //         }
-
-  //         var gallery = []
-
-
-  //         place['placeTypes'] = googlePlace.types
-  //         place['coordinate'] = coordinate
-  //         place['placeId'] = googlePlace.place_id
-  //         place['placeName'] = googlePlace.name
-  //         place['gallery'] = gallery
-
-  //         places.push(place);
-  //       }
-  //       console.log('places:')
-  //       console.log(places)
-  //       console.log(places.length)
-  //       console.log(places[1].placeName)
-  //       global.placeName=places[1].placeName
-  //       //Do your work here with places Array
-  //     })
-  //     .catch(error => {
-  //       console.log("error:")
-  //       console.log(error);
-  //     });
-
-
-  // }, [])
   return (
     <NavigationContainer>
       <AppContainer />

@@ -57,13 +57,15 @@ export default function HomeScreen({ navigation }) {
           longitude = location.coords.longitude;
           radMetter = 2 * 1000; // Search withing 7 KM radius
           console.log('key:' + process.env.API_KEY)
-          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + 'api key here'
+          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8'
 
           fetch(url)
             .then(resp => resp.json())
             .then(res => {
               console.log("unfiltered response")
+              // console.log("response:")
               // console.log(res)
+              // console.log("next page token: "+res.next_page_token)
               var places = [] // This Array WIll contain locations received from google
               for (let googlePlace of res.results) {
                 var place = {}
@@ -91,11 +93,162 @@ export default function HomeScreen({ navigation }) {
                 }
 
                 //  console.log("--------------------------------------")
-                console.log(place['neighborhood'])
+                // console.log(place['neighborhood'])
                 places.push(place);
               }
-              places = places.filter(item => item['neighborhood'] === userNeighborhood)
-              setPlaces(places)
+
+
+              if (res.next_page_token) {
+                let requestPage = setInterval(request, 3000)
+                function request() {
+                  url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
+
+                  fetch(url)
+                    .then(resp => resp.json())
+                    .then(res => {
+                      console.log("fetching second page")
+                      console.log(res)
+                      // console.log(res.results)
+                      // console.log("response:")
+                      // console.log(res)
+                      // console.log("next page token: "+res.next_page_token)
+                      // var places = [] // This Array WIll contain locations received from google
+                      for (let googlePlace of res.results) {
+                        var place = {}
+                        var lat = googlePlace.geometry.location.lat;
+                        var lng = googlePlace.geometry.location.lng;
+                        var coordinate = {
+                          latitude: lat,
+                          longitude: lng,
+                        }
+
+                        var gallery = []
+
+
+                        place['placeTypes'] = googlePlace.types
+                        place['coordinate'] = coordinate
+                        place['placeId'] = googlePlace.place_id
+                        place['placeName'] = googlePlace.name
+                        // place['gallery'] = gallery
+                        place['neighborhood'] = googlePlace.plus_code ? googlePlace.plus_code.compound_code : 0
+                        if (place['neighborhood'] !== 0) {
+                          place['neighborhood'] = place['neighborhood'].split(" ")
+                          place['neighborhood'].splice(0, 1)
+                          place['neighborhood'] = place['neighborhood'].join("")
+                          place['neighborhood'] = place['neighborhood'].split(",")[0]
+                        }
+
+                        //  console.log("--------------------------------------")
+                        // console.log(place['neighborhood'])
+                        places.push(place);
+                      }
+                      // if(res.next_page_token){
+
+
+
+                      // }
+                      if (res.next_page_token) {
+                        let requestPage2 = setInterval(request, 3000)
+                        function request() {
+                          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
+        
+                          fetch(url)
+                            .then(resp => resp.json())
+                            .then(res => {
+                              console.log("fetching second page")
+                              console.log(res)
+                              // console.log(res.results)
+                              // console.log("response:")
+                              // console.log(res)
+                              // console.log("next page token: "+res.next_page_token)
+                              // var places = [] // This Array WIll contain locations received from google
+                              for (let googlePlace of res.results) {
+                                var place = {}
+                                var lat = googlePlace.geometry.location.lat;
+                                var lng = googlePlace.geometry.location.lng;
+                                var coordinate = {
+                                  latitude: lat,
+                                  longitude: lng,
+                                }
+        
+                                var gallery = []
+        
+        
+                                place['placeTypes'] = googlePlace.types
+                                place['coordinate'] = coordinate
+                                place['placeId'] = googlePlace.place_id
+                                place['placeName'] = googlePlace.name
+                                // place['gallery'] = gallery
+                                place['neighborhood'] = googlePlace.plus_code ? googlePlace.plus_code.compound_code : 0
+                                if (place['neighborhood'] !== 0) {
+                                  place['neighborhood'] = place['neighborhood'].split(" ")
+                                  place['neighborhood'].splice(0, 1)
+                                  place['neighborhood'] = place['neighborhood'].join("")
+                                  place['neighborhood'] = place['neighborhood'].split(",")[0]
+                                }
+        
+                                //  console.log("--------------------------------------")
+                                // console.log(place['neighborhood'])
+                                places.push(place);
+                              }
+                              // if(res.next_page_token){
+        
+        
+        
+                              // }
+                              if (res.next_page_token) {
+        
+                                
+                              }
+        
+        
+                                // console.log('places:')
+                                // console.log(places)
+                                // console.log(places.length)
+                                // console.log(places[1].placeName)
+                                // global.placeName=places[1].placeName
+                                //Do your work here with places Array
+                                // console.log("number of elemnts:" + places.length)
+                                places.forEach(item => console.log(item['placeName']))
+                                places = places.filter(item => item['neighborhood'] === userNeighborhood)
+                                console.log("number of elemnts:" + places.length)
+                                setPlaces(places)
+        
+                              })
+                            .catch(error => {
+                              console.log("error:")
+                              console.log(error);
+                            });
+                          clearInterval(requestPage2);
+        
+                        }
+                        
+                      }
+
+
+                        // console.log('places:')
+                        // console.log(places)
+                        // console.log(places.length)
+                        // console.log(places[1].placeName)
+                        // global.placeName=places[1].placeName
+                        //Do your work here with places Array
+                        // console.log("number of elemnts:" + places.length)
+                        places.forEach(item => console.log(item['placeName']))
+                        places = places.filter(item => item['neighborhood'] === userNeighborhood)
+                        console.log("number of elemnts:" + places.length)
+                        setPlaces(places)
+
+                      })
+                    .catch(error => {
+                      console.log("error:")
+                      console.log(error);
+                    });
+                  clearInterval(requestPage);
+
+                }
+              }
+
+
               // console.log('places:')
               // console.log(places)
               // console.log(places.length)
@@ -123,18 +276,20 @@ export default function HomeScreen({ navigation }) {
 
 
   }, []);
-  console.log('places:')
-  console.log(places)
+  // console.log('places:')
+  // console.log(places)
   renderInner = () => (
     <View style={styles.panel}>
       <Text style={styles.panelTitle}>Available stores</Text>
       <Text style={styles.panelSubtitle}>
         Swipe up to see the stores you can visit now
       </Text>
-      {places.map((ele,i) =>
+
+      {places.map((ele, i) =>
         <View style={styles.panelButton} key={i}>
           <Text style={styles.panelButtonTitle}>{ele.placeName}</Text>
         </View>)}
+
       {/* <View style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>Directions</Text>
       </View>
@@ -172,7 +327,7 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <BottomSheet
         ref={this.bs}
-        snapPoints={[500, 100, 0]}
+        snapPoints={['95%', 100]}
         renderContent={this.renderInner}
         initialSnap={1}
       />
@@ -234,7 +389,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   panel: {
-    height: 600,
+
     padding: 20,
     backgroundColor: '#f7f5eee8',
   },
