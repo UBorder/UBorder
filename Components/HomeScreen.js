@@ -151,7 +151,7 @@ export default function HomeScreen({ navigation }) {
                         let requestPage2 = setInterval(request, 3000)
                         function request() {
                           url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
-        
+
                           fetch(url)
                             .then(resp => resp.json())
                             .then(res => {
@@ -170,10 +170,10 @@ export default function HomeScreen({ navigation }) {
                                   latitude: lat,
                                   longitude: lng,
                                 }
-        
+
                                 var gallery = []
-        
-        
+
+
                                 place['placeTypes'] = googlePlace.types
                                 place['coordinate'] = coordinate
                                 place['placeId'] = googlePlace.place_id
@@ -186,59 +186,59 @@ export default function HomeScreen({ navigation }) {
                                   place['neighborhood'] = place['neighborhood'].join("")
                                   place['neighborhood'] = place['neighborhood'].split(",")[0]
                                 }
-        
+
                                 //  console.log("--------------------------------------")
                                 // console.log(place['neighborhood'])
                                 places.push(place);
                               }
                               // if(res.next_page_token){
-        
-        
-        
+
+
+
                               // }
                               if (res.next_page_token) {
-        
-                                
+
+
                               }
-        
-        
-                                // console.log('places:')
-                                // console.log(places)
-                                // console.log(places.length)
-                                // console.log(places[1].placeName)
-                                // global.placeName=places[1].placeName
-                                //Do your work here with places Array
-                                // console.log("number of elemnts:" + places.length)
-                                places.forEach(item => console.log(item['placeName']))
-                                places = places.filter(item => item['neighborhood'] === userNeighborhood)
-                                console.log("number of elemnts:" + places.length)
-                                setPlaces(places)
-        
-                              })
+
+
+                              // console.log('places:')
+                              // console.log(places)
+                              // console.log(places.length)
+                              // console.log(places[1].placeName)
+                              // global.placeName=places[1].placeName
+                              //Do your work here with places Array
+                              // console.log("number of elemnts:" + places.length)
+                              places.forEach(item => console.log(item['placeName']))
+                              places = places.filter(item => item['neighborhood'] === userNeighborhood)
+                              console.log("number of elemnts:" + places.length)
+                              setPlaces(places)
+
+                            })
                             .catch(error => {
                               console.log("error:")
                               console.log(error);
                             });
                           clearInterval(requestPage2);
-        
+
                         }
-                        
+
                       }
 
 
-                        // console.log('places:')
-                        // console.log(places)
-                        // console.log(places.length)
-                        // console.log(places[1].placeName)
-                        // global.placeName=places[1].placeName
-                        //Do your work here with places Array
-                        // console.log("number of elemnts:" + places.length)
-                        places.forEach(item => console.log(item['placeName']))
-                        places = places.filter(item => item['neighborhood'] === userNeighborhood)
-                        console.log("number of elemnts:" + places.length)
-                        setPlaces(places)
+                      // console.log('places:')
+                      // console.log(places)
+                      // console.log(places.length)
+                      // console.log(places[1].placeName)
+                      // global.placeName=places[1].placeName
+                      //Do your work here with places Array
+                      // console.log("number of elemnts:" + places.length)
+                      places.forEach(item => console.log(item['placeName']))
+                      places = places.filter(item => item['neighborhood'] === userNeighborhood)
+                      console.log("number of elemnts:" + places.length)
+                      setPlaces(places)
 
-                      })
+                    })
                     .catch(error => {
                       console.log("error:")
                       console.log(error);
@@ -278,27 +278,36 @@ export default function HomeScreen({ navigation }) {
   }, []);
   // console.log('places:')
   // console.log(places)
-  renderInner = () => (
-    <View style={styles.panel}>
-      <Text style={styles.panelTitle}>Available stores</Text>
-      <Text style={styles.panelSubtitle}>
-        Swipe up to see the stores you can visit now
+
+  renderInner = () => {
+    let curfew_start=12
+    let curfew_end=9
+    var today = new Date();
+    var time = today.getHours()
+    let content=time<curfew_start&&time>curfew_end?places.map((ele, i) =>
+    <View style={styles.panelButton} key={i}>
+      <Text style={styles.panelButtonTitle}>{ele.placeName}</Text>
+    </View>):<View style={styles.panelButton}>
+      <Text style={styles.panelButtonTitle}>You are currently in curfew hours, you can't visit any places at the moment</Text>
+    </View>
+    return (
+      <View style={styles.panel}>
+        <Text style={styles.panelTitle}>Available stores</Text>
+        <Text style={styles.panelSubtitle}>
+          Swipe up to see the stores you can visit now
       </Text>
+        {content}
 
-      {places.map((ele, i) =>
-        <View style={styles.panelButton} key={i}>
-          <Text style={styles.panelButtonTitle}>{ele.placeName}</Text>
-        </View>)}
-
-      {/* <View style={styles.panelButton}>
+        {/* <View style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>Directions</Text>
       </View>
       <View style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>Search Nearby</Text>
       </View> */}
 
-    </View>
-  )
+      </View>
+    )
+  }
 
   bs = React.createRef()
 
