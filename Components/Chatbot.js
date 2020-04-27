@@ -1,10 +1,8 @@
-// App.js
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Dialogflow_V2 } from 'react-native-dialogflow';
-
 import { dialogflowConfig } from './env';
 
 const BOT_USER = {
