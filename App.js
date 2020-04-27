@@ -42,7 +42,8 @@ const AppContainer = createAppContainer(
     {
       Starter: FetchData,
       HomeScreen: HomeStack,
-      FirstScreen: FirstScreen
+      FirstScreen: FirstScreen,
+      Chatbot: Chatbot
     },
     {
       initialRouteName: "Starter"

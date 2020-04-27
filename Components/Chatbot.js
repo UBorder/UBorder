@@ -1,10 +1,29 @@
+// App.js
+
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Dialogflow_V2 } from 'react-native-dialogflow';
-import { dialogflowConfig } from './env';
+import { StyleSheet, Text, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
+import { Dialogflow_V2 } from 'react-native-dialogflow';
+
+import { dialogflowConfig } from './env';
+
+const BOT_USER = {
+  _id: 2,
+  name: 'FAQ Bot',
+  avatar: 'https://imgur.com/HKDXgYB.png'
+};
 
 class Chatbot extends Component {
+  state = {
+    messages: [
+      {
+        _id: 1,
+        text: `Hi! I am Meznah 🤖 \n\nHow may I help you with today?`,
+        createdAt: new Date(),
+        user: BOT_USER
+      }
+    ]
+  };
 
   componentDidMount() {
     Dialogflow_V2.setConfiguration(
@@ -15,22 +34,10 @@ class Chatbot extends Component {
     );
   }
 
-
-
-  state = {
-    messages: [
-      {
-        _id: 1,
-        text: `Hi! I am the FAQ bot 🤖 from Jscrambler.\n\nHow may I help you with today?`,
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'FAQ Bot',
-          avatar: 'https://i.imgur.com/7k12EPD.png'
-        }
-      }
-    ]
-  };
+  handleGoogleResponse(result) {
+    let text = result.queryResult.fulfillmentMessages[0].text.text[0];
+    this.sendBotResponse(text);
+  }
 
   onSend(messages = []) {
     this.setState(previousState => ({
@@ -43,6 +50,19 @@ class Chatbot extends Component {
       result => this.handleGoogleResponse(result),
       error => console.log(error)
     );
+  }
+
+  sendBotResponse(text) {
+    let msg = {
+      _id: this.state.messages.length + 1,
+      text,
+      createdAt: new Date(),
+      user: BOT_USER
+    };
+
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, [msg])
+    }));
   }
 
   render() {

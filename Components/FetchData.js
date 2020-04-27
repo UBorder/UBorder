@@ -13,7 +13,7 @@ export default class FetchData extends React.Component {
 
         const username = await AsyncStorage.getItem('username');
         global.username=username
-        this.props.navigation.navigate(username ? 'Chatbot' : 'Chatbot');
+        this.props.navigation.navigate(username ? 'FirstScreen' : 'FirstScreen');
     }
 
     render() {
