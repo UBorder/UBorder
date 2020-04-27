@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import { Dialogflow_V2 } from 'react-native-dialogflow';
+import { dialogflowConfig } from './env';
 import { GiftedChat } from 'react-native-gifted-chat';
 
 class Chatbot extends Component {
+
+  componentDidMount() {
+    Dialogflow_V2.setConfiguration(
+      dialogflowConfig.client_email,
+      dialogflowConfig.private_key,
+      Dialogflow_V2.LANG_ENGLISH_US,
+      dialogflowConfig.project_id
+    );
+  }
+
+
+
   state = {
     messages: [
       {
@@ -22,6 +36,13 @@ class Chatbot extends Component {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages)
     }));
+
+    let message = messages[0].text;
+    Dialogflow_V2.requestQuery(
+      message,
+      result => this.handleGoogleResponse(result),
+      error => console.log(error)
+    );
   }
 
   render() {
