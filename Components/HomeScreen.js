@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 import {
-  Button, Platform, StyleSheet, View, Text, Dimensions, processColor, Image,
+  Button, Platform, StyleSheet, View, Text, Dimensions, processColor, Image, TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-// import React, { useState, useEffect } from 'react';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
-// import { API_KEY } from 'react-native-dotenv'
-
 import BottomSheet from 'reanimated-bottom-sheet'
-// console.log(API_KEY)
+import config from '../config'
 export default function HomeScreen({ navigation }) {
+
   const [location, setLocation] = useState({ "timestamp": 1587559966314, "mocked": false, "coords": { "altitude": 0, "heading": 313.141845703125, "longitude": 0, "speed": 0.36433911323547363, "latitude": 0, "accuracy": 25.93199920654297 } });
   const [errorMsg, setErrorMsg] = useState(null);
   const [places, setPlaces] = useState([]);
+  const [destination, setDestination] = useState(null);
+
 
 
   useEffect(() => {
@@ -35,8 +36,7 @@ export default function HomeScreen({ navigation }) {
       let latitude = location.coords.latitude; // you can update it with user's latitude & Longitude
       let longitude = location.coords.longitude;
       let radMetter = 0.4 * 1000; // Search withing 2 KM radius
-      console.log('key:' + process.env.API_KEY)
-      let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8'
+      let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + config.API_KEY
       fetch(url)
         .then(resp => resp.json())
         .then(res => {
@@ -56,8 +56,7 @@ export default function HomeScreen({ navigation }) {
           latitude = location.coords.latitude; // you can update it with user's latitude & Longitude
           longitude = location.coords.longitude;
           radMetter = 2 * 1000; // Search withing 7 KM radius
-          console.log('key:' + process.env.API_KEY)
-          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8'
+          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + config.API_KEY
 
           fetch(url)
             .then(resp => resp.json())
@@ -99,9 +98,9 @@ export default function HomeScreen({ navigation }) {
 
 
               if (res.next_page_token) {
-                let requestPage = setInterval(request, 3000)
+                let requestPage = setInterval(request, 1500)
                 function request() {
-                  url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
+                  url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + config.API_KEY + '&pagetoken=' + res.next_page_token
 
                   fetch(url)
                     .then(resp => resp.json())
@@ -148,10 +147,10 @@ export default function HomeScreen({ navigation }) {
 
                       // }
                       if (res.next_page_token) {
-                        let requestPage2 = setInterval(request, 3000)
+                        let requestPage2 = setInterval(request, 1500)
                         function request() {
-                          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
-        
+                          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + config.API_KEY + '&pagetoken=' + res.next_page_token
+
                           fetch(url)
                             .then(resp => resp.json())
                             .then(res => {
@@ -170,10 +169,10 @@ export default function HomeScreen({ navigation }) {
                                   latitude: lat,
                                   longitude: lng,
                                 }
-        
+
                                 var gallery = []
-        
-        
+
+
                                 place['placeTypes'] = googlePlace.types
                                 place['coordinate'] = coordinate
                                 place['placeId'] = googlePlace.place_id
@@ -186,59 +185,61 @@ export default function HomeScreen({ navigation }) {
                                   place['neighborhood'] = place['neighborhood'].join("")
                                   place['neighborhood'] = place['neighborhood'].split(",")[0]
                                 }
-        
+
                                 //  console.log("--------------------------------------")
                                 // console.log(place['neighborhood'])
                                 places.push(place);
                               }
                               // if(res.next_page_token){
-        
-        
-        
+
+
+
                               // }
                               if (res.next_page_token) {
-        
-                                
+
+
                               }
-        
-        
-                                // console.log('places:')
-                                // console.log(places)
-                                // console.log(places.length)
-                                // console.log(places[1].placeName)
-                                // global.placeName=places[1].placeName
-                                //Do your work here with places Array
-                                // console.log("number of elemnts:" + places.length)
-                                places.forEach(item => console.log(item['placeName']))
-                                places = places.filter(item => item['neighborhood'] === userNeighborhood)
-                                console.log("number of elemnts:" + places.length)
-                                setPlaces(places)
-        
-                              })
+
+
+                              // console.log('places:')
+                              // console.log(places)
+                              // console.log(places.length)
+                              // console.log(places[1].placeName)
+                              // global.placeName=places[1].placeName
+                              //Do your work here with places Array
+                              // console.log("number of elemnts:" + places.length)
+                              places.forEach(item => console.log(item['placeName']))
+                              places = places.filter(item => item['neighborhood'] === userNeighborhood)
+                              console.log("number of elemnts:" + places.length)
+                              setPlaces(places)
+
+                            })
                             .catch(error => {
                               console.log("error:")
                               console.log(error);
                             });
                           clearInterval(requestPage2);
-        
+
                         }
-                        
+
                       }
 
 
-                        // console.log('places:')
-                        // console.log(places)
-                        // console.log(places.length)
-                        // console.log(places[1].placeName)
-                        // global.placeName=places[1].placeName
-                        //Do your work here with places Array
-                        // console.log("number of elemnts:" + places.length)
-                        places.forEach(item => console.log(item['placeName']))
-                        places = places.filter(item => item['neighborhood'] === userNeighborhood)
-                        console.log("number of elemnts:" + places.length)
-                        setPlaces(places)
+                      // console.log('places:')
+                      // console.log(places)
+                      // console.log(places.length)
+                      // console.log(places[1].placeName)
+                      // global.placeName=places[1].placeName
+                      //Do your work here with places Array
+                      // console.log("number of elemnts:" + places.length)
+                      places.forEach(item => console.log(item['placeName']))
+                      places = places.filter(item => item['neighborhood'] === userNeighborhood)
+                      console.log("number of elemnts:" + places.length)
+                      setPlaces(places)
+                      console.log("places final:")
+                      console.log(places)
 
-                      })
+                    })
                     .catch(error => {
                       console.log("error:")
                       console.log(error);
@@ -278,60 +279,67 @@ export default function HomeScreen({ navigation }) {
   }, []);
   // console.log('places:')
   // console.log(places)
-  renderInner = () => (
-    <View style={styles.panel}>
-      <Text style={styles.panelTitle}>Available stores</Text>
-      <Text style={styles.panelSubtitle}>
-        Swipe up to see the stores you can visit now
-      </Text>
+  bs = React.createRef()
 
-      {places.map((ele, i) =>
-        <View style={styles.panelButton} key={i}>
-          <Text style={styles.panelButtonTitle}>{ele.placeName}</Text>
-        </View>)}
+  renderInner = () => {
+    let curfew_start = 24
+    let curfew_end = 3
+    var today = new Date();
+    var time = today.getHours()
+    let content = time < curfew_start && time > curfew_end ? places.map((ele, i) =>
+      <TouchableOpacity style={styles.panelButton} style={styles.panelButton} key={i} onPress={() => { console.log("clicked"); setDestination(ele.coordinate); this.bs.current.snapTo(1) }} ><Text>{ele.placeName}</Text></TouchableOpacity>) :
+      <View style={styles.panelButton}>
+        <Text style={styles.panelButtonTitle}>You are currently in curfew hours, you can't visit any places at the moment</Text>
+      </View>
 
-      {/* <View style={styles.panelButton}>
+    return (
+      <View style={styles.panel} >
+        <Text style={styles.panelTitle} >Available stores</Text>
+        <Text style={styles.panelSubtitle}>
+          Swipe up to see the stores you can visit now
+        </Text>
+        <Button
+          title="Ask Meznah"
+          onPress={() => navigation.navigate('Chatbot')}
+        />
+        {content}
+
+        {/* <View style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>Directions</Text>
       </View>
       <View style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>Search Nearby</Text>
       </View> */}
 
-    </View>
-  )
+      </View>
+    )
+  }
 
-  bs = React.createRef()
 
+  const directions = destination ? <MapViewDirections
+    origin={location.coords}
+    destination={destination}
+    apikey={config.API_KEY}
+    strokeWidth={3}
+    strokeColor="#000"
+  /> : <MapViewDirections
+      origin={location.coords}
+      destination={destination}
+      apikey={config.API_KEY}
+      strokeWidth={3}
+      strokeColor="#FFF"
+    />
   return (
-    // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-    //   <Text>Home Screen {global.placeName}</Text>
-    //   <Text>Hello {global.username}</Text>
-    //   <Button
-    //     title="Ask Someone"
-    //     onPress={() => navigation.navigate('Chatbot')}
-    //   />
-
-
-    // </View>
-
-    // <View style={styles.container}>
-    //   <MapView style={styles.mapStyle} region={{
-    //     latitude: location.coords.latitude,
-    //     longitude: location.coords.longitude,
-    //     latitudeDelta: 0.04,
-    //     longitudeDelta: 0.005,
-    //   }} />
-    // </View>
 
     <View style={styles.container}>
       <BottomSheet
-        ref={this.bs}
+        ref={bs}
         snapPoints={['95%', 100]}
-        renderContent={this.renderInner}
+        renderContent={renderInner}
         initialSnap={1}
       />
-      <TouchableWithoutFeedback onPress={() => this.bs.current.snapTo(0)}>
+      <TouchableWithoutFeedback >
         <MapView style={styles.map}
           region={{
             latitude: location.coords.latitude,
@@ -340,6 +348,7 @@ export default function HomeScreen({ navigation }) {
             longitudeDelta: 0.005,
           }}
         >
+          {directions}
           <Marker
             coordinate={{
               latitude: location.coords.latitude,
@@ -348,6 +357,14 @@ export default function HomeScreen({ navigation }) {
             title="You"
             description="anything"
           />
+          {
+            places.map((item, i) => <Marker
+              coordinate={item.coordinate}
+              title={item.placeName}
+              key={i}
+              pinColor='green'
+            />)
+          }
 
         </MapView>
       </TouchableWithoutFeedback>
