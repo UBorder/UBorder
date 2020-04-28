@@ -298,6 +298,10 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.panelSubtitle}>
           Swipe up to see the stores you can visit now
         </Text>
+        <Button
+          title="Ask Meznah"
+          onPress={() => navigation.navigate('Chatbot')}
+        />
         {content}
 
         {/* <View style={styles.panelButton}>
@@ -326,19 +330,7 @@ export default function HomeScreen({ navigation }) {
       strokeColor="#FFF"
     />
   return (
-    // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-    //   <Text>Home Screen {global.placeName}</Text>
-    //   <Text>Hello {global.username}</Text>
-    //   <Button
-    //     title="Ask Someone"
-    //     onPress={() => navigation.navigate('Chatbot')}
-    //   />
-
-
-    // </View>
-
- 
 
     <View style={styles.container}>
       <BottomSheet

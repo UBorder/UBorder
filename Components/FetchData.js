@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { View, StatusBar, ActivityIndicator, AsyncStorage, StyleSheet, Text } from 'react-native'
 
 export default class FetchData extends React.Component {
