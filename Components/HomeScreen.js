@@ -325,7 +325,6 @@ export default function HomeScreen({ navigation }) {
       strokeWidth={3}
       strokeColor="#FFF"
     />
-    console.log("keeeeey:"+config.API_KEY)
   return (
     // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
