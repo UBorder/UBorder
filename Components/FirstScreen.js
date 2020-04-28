@@ -13,7 +13,7 @@ export default function FirstScreen({ navigation }) {
     return (
         <View style={styles.container}>
         <View style={styles.LogoBorder}>
-            <Image style={styles.Logo} source={require('../assets/logo.png')} />
+            <Image style={styles.Logo} source={require('../assets/LogoIcon.png')} />
         </View>
         <Text style={styles.textM}>Please Enter Your Name</Text>
          <TextInput
@@ -79,5 +79,6 @@ const styles = StyleSheet.create({
        borderWidth: 2,
        //borderWidth: StyleSheet.absoluteFill,
        borderRadius: 20,
+       width: 50, //width of the button
     },
 });
