@@ -7,15 +7,10 @@ import {
   Button, Platform, StyleSheet, View, Text, Dimensions, processColor, Image, TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-// import React, { useState, useEffect } from 'react';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
-// import { API_KEY } from 'react-native-dotenv'
-
 import BottomSheet from 'reanimated-bottom-sheet'
-// console.log(API_KEY)
-const GOOGLE_MAPS_APIKEY = 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8';
-
+import config from '../config'
 export default function HomeScreen({ navigation }) {
 
   const [location, setLocation] = useState({ "timestamp": 1587559966314, "mocked": false, "coords": { "altitude": 0, "heading": 313.141845703125, "longitude": 0, "speed": 0.36433911323547363, "latitude": 0, "accuracy": 25.93199920654297 } });
@@ -41,8 +36,7 @@ export default function HomeScreen({ navigation }) {
       let latitude = location.coords.latitude; // you can update it with user's latitude & Longitude
       let longitude = location.coords.longitude;
       let radMetter = 0.4 * 1000; // Search withing 2 KM radius
-      console.log('key:' + process.env.API_KEY)
-      let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8'
+      let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + config.API_KEY
       fetch(url)
         .then(resp => resp.json())
         .then(res => {
@@ -62,8 +56,7 @@ export default function HomeScreen({ navigation }) {
           latitude = location.coords.latitude; // you can update it with user's latitude & Longitude
           longitude = location.coords.longitude;
           radMetter = 2 * 1000; // Search withing 7 KM radius
-          console.log('key:' + process.env.API_KEY)
-          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8'
+          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + config.API_KEY
 
           fetch(url)
             .then(resp => resp.json())
@@ -107,7 +100,7 @@ export default function HomeScreen({ navigation }) {
               if (res.next_page_token) {
                 let requestPage = setInterval(request, 1500)
                 function request() {
-                  url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
+                  url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + config.API_KEY + '&pagetoken=' + res.next_page_token
 
                   fetch(url)
                     .then(resp => resp.json())
@@ -156,7 +149,7 @@ export default function HomeScreen({ navigation }) {
                       if (res.next_page_token) {
                         let requestPage2 = setInterval(request, 1500)
                         function request() {
-                          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
+                          url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + config.API_KEY + '&pagetoken=' + res.next_page_token
 
                           fetch(url)
                             .then(resp => resp.json())
@@ -305,12 +298,6 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.panelSubtitle}>
           Swipe up to see the stores you can visit now
         </Text>
-        <TouchableOpacity >
-          <View pointerEvents='none'>
-            <Text>Please work darling</Text>
-          </View>
-        </TouchableOpacity>
-
         {content}
 
         {/* <View style={styles.panelButton}>
@@ -324,21 +311,21 @@ export default function HomeScreen({ navigation }) {
     )
   }
 
- 
+
   const directions = destination ? <MapViewDirections
     origin={location.coords}
     destination={destination}
-    apikey={GOOGLE_MAPS_APIKEY}
+    apikey={config.API_KEY}
     strokeWidth={3}
     strokeColor="#000"
   /> : <MapViewDirections
       origin={location.coords}
       destination={destination}
-      apikey={GOOGLE_MAPS_APIKEY}
+      apikey={config.API_KEY}
       strokeWidth={3}
       strokeColor="#FFF"
     />
-
+    console.log("keeeeey:"+config.API_KEY)
   return (
     // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
@@ -352,14 +339,7 @@ export default function HomeScreen({ navigation }) {
 
     // </View>
 
-    // <View style={styles.container}>
-    //   <MapView style={styles.mapStyle} region={{
-    //     latitude: location.coords.latitude,
-    //     longitude: location.coords.longitude,
-    //     latitudeDelta: 0.04,
-    //     longitudeDelta: 0.005,
-    //   }} />
-    // </View>
+ 
 
     <View style={styles.container}>
       <BottomSheet
