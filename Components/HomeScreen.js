@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 import {
-  Button, Platform, StyleSheet, View, Text, Dimensions, processColor, Image,
+  Button, Platform, StyleSheet, View, Text, Dimensions, processColor, Image, TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
 // import React, { useState, useEffect } from 'react';
@@ -13,10 +14,15 @@ import * as Location from 'expo-location';
 
 import BottomSheet from 'reanimated-bottom-sheet'
 // console.log(API_KEY)
+const GOOGLE_MAPS_APIKEY = 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8';
+
 export default function HomeScreen({ navigation }) {
+
   const [location, setLocation] = useState({ "timestamp": 1587559966314, "mocked": false, "coords": { "altitude": 0, "heading": 313.141845703125, "longitude": 0, "speed": 0.36433911323547363, "latitude": 0, "accuracy": 25.93199920654297 } });
   const [errorMsg, setErrorMsg] = useState(null);
   const [places, setPlaces] = useState([]);
+  const [destination, setDestination] = useState(null);
+
 
 
   useEffect(() => {
@@ -99,7 +105,7 @@ export default function HomeScreen({ navigation }) {
 
 
               if (res.next_page_token) {
-                let requestPage = setInterval(request, 3000)
+                let requestPage = setInterval(request, 1500)
                 function request() {
                   url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
 
@@ -148,7 +154,7 @@ export default function HomeScreen({ navigation }) {
 
                       // }
                       if (res.next_page_token) {
-                        let requestPage2 = setInterval(request, 3000)
+                        let requestPage2 = setInterval(request, 1500)
                         function request() {
                           url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + 'key=' + 'AIzaSyALZhKDkALvKuyywExFxxFXro6KS5qyxg8' + '&pagetoken=' + res.next_page_token
 
@@ -237,6 +243,8 @@ export default function HomeScreen({ navigation }) {
                       places = places.filter(item => item['neighborhood'] === userNeighborhood)
                       console.log("number of elemnts:" + places.length)
                       setPlaces(places)
+                      console.log("places final:")
+                      console.log(places)
 
                     })
                     .catch(error => {
@@ -278,24 +286,31 @@ export default function HomeScreen({ navigation }) {
   }, []);
   // console.log('places:')
   // console.log(places)
+  bs = React.createRef()
 
   renderInner = () => {
-    let curfew_start=12
-    let curfew_end=9
+    let curfew_start = 24
+    let curfew_end = 3
     var today = new Date();
     var time = today.getHours()
-    let content=time<curfew_start&&time>curfew_end?places.map((ele, i) =>
-    <View style={styles.panelButton} key={i}>
-      <Text style={styles.panelButtonTitle}>{ele.placeName}</Text>
-    </View>):<View style={styles.panelButton}>
-      <Text style={styles.panelButtonTitle}>You are currently in curfew hours, you can't visit any places at the moment</Text>
-    </View>
+    let content = time < curfew_start && time > curfew_end ? places.map((ele, i) =>
+      <TouchableOpacity style={styles.panelButton} style={styles.panelButton} key={i} onPress={() => { console.log("clicked"); setDestination(ele.coordinate); this.bs.current.snapTo(1) }} ><Text>{ele.placeName}</Text></TouchableOpacity>) :
+      <View style={styles.panelButton}>
+        <Text style={styles.panelButtonTitle}>You are currently in curfew hours, you can't visit any places at the moment</Text>
+      </View>
+
     return (
-      <View style={styles.panel}>
-        <Text style={styles.panelTitle}>Available stores</Text>
+      <View style={styles.panel} >
+        <Text style={styles.panelTitle} >Available stores</Text>
         <Text style={styles.panelSubtitle}>
           Swipe up to see the stores you can visit now
-      </Text>
+        </Text>
+        <TouchableOpacity >
+          <View pointerEvents='none'>
+            <Text>Please work darling</Text>
+          </View>
+        </TouchableOpacity>
+
         {content}
 
         {/* <View style={styles.panelButton}>
@@ -309,7 +324,20 @@ export default function HomeScreen({ navigation }) {
     )
   }
 
-  bs = React.createRef()
+ 
+  const directions = destination ? <MapViewDirections
+    origin={location.coords}
+    destination={destination}
+    apikey={GOOGLE_MAPS_APIKEY}
+    strokeWidth={3}
+    strokeColor="#000"
+  /> : <MapViewDirections
+      origin={location.coords}
+      destination={destination}
+      apikey={GOOGLE_MAPS_APIKEY}
+      strokeWidth={3}
+      strokeColor="#FFF"
+    />
 
   return (
     // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -335,12 +363,12 @@ export default function HomeScreen({ navigation }) {
 
     <View style={styles.container}>
       <BottomSheet
-        ref={this.bs}
+        ref={bs}
         snapPoints={['95%', 100]}
-        renderContent={this.renderInner}
+        renderContent={renderInner}
         initialSnap={1}
       />
-      <TouchableWithoutFeedback onPress={() => this.bs.current.snapTo(0)}>
+      <TouchableWithoutFeedback >
         <MapView style={styles.map}
           region={{
             latitude: location.coords.latitude,
@@ -349,6 +377,7 @@ export default function HomeScreen({ navigation }) {
             longitudeDelta: 0.005,
           }}
         >
+          {directions}
           <Marker
             coordinate={{
               latitude: location.coords.latitude,
@@ -357,6 +386,14 @@ export default function HomeScreen({ navigation }) {
             title="You"
             description="anything"
           />
+          {
+            places.map((item, i) => <Marker
+              coordinate={item.coordinate}
+              title={item.placeName}
+              key={i}
+              pinColor='green'
+            />)
+          }
 
         </MapView>
       </TouchableWithoutFeedback>
