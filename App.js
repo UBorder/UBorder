@@ -10,7 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createAppContainer, createSwitchNavigator, StackNavigator } from "react-navigation";
 import FetchData from './Components/FetchData.js';
 import FirstScreen from './Components/FirstScreen.js';
-import axios from 'axios'
+import { Provider as PaperProvider } from 'react-native-paper';
 
 //import { Provider as PaperProvider } from 'react-native-paper';
 
@@ -20,8 +20,9 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Chatbot" component={Chatbot} />
+      <Stack.Screen name="Home" component={HomeScreen}  options={{headerShown: false}} />
+      <Stack.Screen name="Meznah" component={Chatbot} />
+      
     </Stack.Navigator>
   );
 }
@@ -31,7 +32,9 @@ class HomeStack extends React.Component {
 
   render() {
     return (
-      <MyStack />
+      <PaperProvider>
+        <MyStack />
+      </PaperProvider>
     );
   }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import { FAB } from 'react-native-paper';
 
 import {
   Button, Platform, StyleSheet, View, Text, Dimensions, processColor, Image, TouchableOpacity,
@@ -106,7 +107,7 @@ export default function HomeScreen({ navigation }) {
                     .then(resp => resp.json())
                     .then(res => {
                       console.log("fetching second page")
-                      console.log(res)
+                      // console.log(res)
                       // console.log(res.results)
                       // console.log("response:")
                       // console.log(res)
@@ -155,7 +156,7 @@ export default function HomeScreen({ navigation }) {
                             .then(resp => resp.json())
                             .then(res => {
                               console.log("fetching second page")
-                              console.log(res)
+                              // console.log(res)
                               // console.log(res.results)
                               // console.log("response:")
                               // console.log(res)
@@ -209,7 +210,7 @@ export default function HomeScreen({ navigation }) {
                               //Do your work here with places Array
                               // console.log("number of elemnts:" + places.length)
                               places.forEach(item => console.log(item['placeName']))
-                              places = places.filter(item => item['neighborhood'] === userNeighborhood && !(item['placeTypes'].includes("mosque") || item['placeTypes'].includes("place_of_worship") || item['placeName'].includes("جامع") || item['placeName'].includes("مسجد")))
+                              places = places.filter(item => item['neighborhood'] === userNeighborhood && !(item['placeTypes'].includes("school") || item['placeTypes'].includes("mosque") || item['placeTypes'].includes("place_of_worship") || item['placeName'].includes("جامع") || item['placeName'].includes("مسجد")))
                               console.log("number of elemnts:" + places.length)
                               setPlaces(places)
 
@@ -294,7 +295,7 @@ export default function HomeScreen({ navigation }) {
         console.log(ele['placeTypes'].includes("mosque") || ele['placeTypes'].includes("place_of_worship"));
         setDestination(ele.coordinate); this.bs.current.snapTo(1)
       }} >
-        <Text>{ele.placeName}</Text>
+        <Text style={styles.panelButtonTitle} >{ele.placeName}</Text>
       </TouchableOpacity>) :
       <View style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>You are currently in curfew hours, you can't visit any places at the moment</Text>
@@ -306,10 +307,8 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.panelSubtitle}>
           Swipe up to see the stores you can visit now
         </Text>
-        <Button
-          title="Ask Meznah"
-          onPress={() => navigation.navigate('Chatbot')}
-        />
+
+
         {content}
 
         {/* <View style={styles.panelButton}>
@@ -343,9 +342,10 @@ export default function HomeScreen({ navigation }) {
 
 
     <View style={styles.container}>
+
       <BottomSheet
         ref={bs}
-        snapPoints={['95%', 100]}
+        snapPoints={['100%', 100]}
         renderContent={renderInner}
         initialSnap={1}
       />
@@ -378,6 +378,16 @@ export default function HomeScreen({ navigation }) {
 
         </MapView>
       </TouchableWithoutFeedback>
+      <FAB
+        style={styles.fab}
+        small
+        label="Ask Meznah"
+        icon="comment-question-outline"
+        onPress={() => {
+          console.log("hello");
+          navigation.navigate('Meznah')
+        }}
+      />
     </View>
 
 
@@ -454,5 +464,12 @@ const styles = StyleSheet.create({
   map: {
     height: '100%',
     width: '100%',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    top: 0,
+    backgroundColor: 'black'
   },
 })

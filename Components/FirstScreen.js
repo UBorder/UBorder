@@ -4,25 +4,33 @@ import { Image } from 'react-native';
 
 export default function FirstScreen({ navigation }) {
     const [value, onChangeText] = React.useState('');
+    const [error, setError] = React.useState(false);
     async function storeName() {
+        if(value){
         await AsyncStorage.setItem("username", value);
         globalThis.username = value;
         navigation.navigate("HomeScreen");
+        }
+        else{
+            setError(true)
+        }
     }
-
+    let errorText=error?<Text style={{ color: 'red', marginVertical:2 }}>please enter your name</Text>:<Text></Text>
     return (
         <View style={styles.container}>
             <View style={styles.LogoBorder}>
                 <Image style={styles.Logo} source={require('../assets/LogoIcon.png')} />
             </View>
             <Text style={styles.textM}>Please Enter Your Name</Text>
+            {errorText}
             <TextInput
                 style={styles.inputName}
                 onChangeText={text => onChangeText(text)}
                 value={value}
                 placeholder="Name"
-            />
+                label='Name'
 
+            />
             <TouchableOpacity onPress={storeName} style={styles.buttonS} >
                 <Text style={{ color: '#004080' }}>Submit</Text>
             </TouchableOpacity>
