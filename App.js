@@ -10,6 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createAppContainer, createSwitchNavigator, StackNavigator } from "react-navigation";
 import FetchData from './Components/FetchData.js';
 import FirstScreen from './Components/FirstScreen.js';
+import Selectlanguage from './Components/Selectlanguage';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 //import { Provider as PaperProvider } from 'react-native-paper';
@@ -22,6 +23,7 @@ function MyStack() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen}  options={{headerShown: false}} />
       <Stack.Screen name="Meznah" component={Chatbot} />
+      <Stack.Screen name="Select language" component={Selectlanguage} options={{headerShown: false}}/>
       
     </Stack.Navigator>
   );
