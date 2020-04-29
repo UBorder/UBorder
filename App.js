@@ -12,6 +12,8 @@ import FetchData from './Components/FetchData.js';
 import FirstScreen from './Components/FirstScreen.js';
 import axios from 'axios'
 
+//import { Provider as PaperProvider } from 'react-native-paper';
+
 //Stack navigation
 const Stack = createStackNavigator();
 

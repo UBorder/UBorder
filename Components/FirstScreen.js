@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, AsyncStorage } from 'react-native';
+import {Image} from 'react-native' ; 
 
 export default function FirstScreen({ navigation }) {
     const [value, onChangeText] = React.useState('Name');
@@ -11,13 +12,19 @@ export default function FirstScreen({ navigation }) {
  
     return (
         <View style={styles.container}>
-            <Text>Please enter your name</Text>
-            <TextInput
-                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                onChangeText={text => onChangeText(text)}
-                value={value}
-            />
-            <Button title="Submit" onPress={storeName}/>
+        <View style={styles.LogoBorder}>
+            <Image style={styles.Logo} source={require('../assets/LogoIcon.png')} />
+        </View>
+        <Text style={styles.textM}>Please Enter Your Name</Text>
+         <TextInput
+             style={styles.inputName}
+             onChangeText={text => onChangeText(text)}
+             value={value}
+        />
+        <View style={styles.buttonS}>
+             <Button title="Submit" onPress={storeName}/>
+        </View>
+            
         </View>
     );
 }
@@ -25,8 +32,53 @@ export default function FirstScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        //backgroundColor: '#cce6ff',
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    Logo:{
+        width:250,
+        height:250,
+        padding:"30%",
+        
+    },
+
+    LogoBorder: {
+        borderWidth:2,
+        borderColor: "#508eb4",
+        borderRadius: 70,
+        borderStyle: "dotted",
+    },
+
+    textM: {
+        color: '#004080',
+        //backgroundColor: "#fff",
+        paddingTop: "10%",
+        paddingBottom: "2%",
+        fontSize: 24,
+        fontWeight: "bold",
+      },
+    inputName: { 
+        height: 40,
+        width: 200, 
+        backgroundColor: "#fff", 
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "#b3d9ff",
+        padding: "2%",
+    },
+    buttonS: {
+       // paddingTop: "20%",
+       backgroundColor: "#e6f2ff",
+      // alignItems: 'left',
+      // justifyContent: 'b',
+       marginVertical: 8,
+       borderColor: "#99ccff",
+       borderWidth: 2,
+       //borderWidth: StyleSheet.absoluteFill,
+       borderRadius: 20,
+       width: 50, //width of the button
     },
 });
