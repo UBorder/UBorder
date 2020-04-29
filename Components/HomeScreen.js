@@ -55,7 +55,7 @@ export default function HomeScreen({ navigation }) {
           console.log("function called")
           latitude = location.coords.latitude; // you can update it with user's latitude & Longitude
           longitude = location.coords.longitude;
-          radMetter = 2 * 1000; // Search withing 7 KM radius
+          radMetter = 2 * 1000; // Search withing 2 KM radius
           url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + config.API_KEY
 
           fetch(url)
@@ -282,12 +282,14 @@ export default function HomeScreen({ navigation }) {
   bs = React.createRef()
 
   renderInner = () => {
-    let curfew_start = 24
-    let curfew_end = 3
+    let curfew_start = 17
+    let curfew_end = 9
     var today = new Date();
     var time = today.getHours()
     let content = time < curfew_start && time > curfew_end ? places.map((ele, i) =>
-      <TouchableOpacity style={styles.panelButton} style={styles.panelButton} key={i} onPress={() => { console.log("clicked"); setDestination(ele.coordinate); this.bs.current.snapTo(1) }} ><Text>{ele.placeName}</Text></TouchableOpacity>) :
+      <TouchableOpacity style={styles.panelButton} style={styles.panelButton} key={i} onPress={() => { console.log("clicked"); setDestination(ele.coordinate); this.bs.current.snapTo(1) }} >
+        <Text>{ele.placeName}</Text>
+      </TouchableOpacity>) :
       <View style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>You are currently in curfew hours, you can't visit any places at the moment</Text>
       </View>
