@@ -209,7 +209,7 @@ export default function HomeScreen({ navigation }) {
                               //Do your work here with places Array
                               // console.log("number of elemnts:" + places.length)
                               places.forEach(item => console.log(item['placeName']))
-                              places = places.filter(item => item['neighborhood'] === userNeighborhood)
+                              places = places.filter(item => item['neighborhood'] === userNeighborhood && !(item['placeTypes'].includes("mosque") || item['placeTypes'].includes("place_of_worship") || item['placeName'].includes("جامع") || item['placeName'].includes("مسجد")))
                               console.log("number of elemnts:" + places.length)
                               setPlaces(places)
 
@@ -287,7 +287,13 @@ export default function HomeScreen({ navigation }) {
     var today = new Date();
     var time = today.getHours()
     let content = time < curfew_start && time > curfew_end ? places.map((ele, i) =>
-      <TouchableOpacity style={styles.panelButton} style={styles.panelButton} key={i} onPress={() => { console.log("clicked"); setDestination(ele.coordinate); this.bs.current.snapTo(1) }} >
+      <TouchableOpacity style={styles.panelButton} style={styles.panelButton} key={i} onPress={() => {
+        console.log("--------------------------");
+        console.log(ele);
+        console.log(ele); console.log("--------------------------");
+        console.log(ele['placeTypes'].includes("mosque") || ele['placeTypes'].includes("place_of_worship"));
+        setDestination(ele.coordinate); this.bs.current.snapTo(1)
+      }} >
         <Text>{ele.placeName}</Text>
       </TouchableOpacity>) :
       <View style={styles.panelButton}>
@@ -331,6 +337,8 @@ export default function HomeScreen({ navigation }) {
       strokeWidth={3}
       strokeColor="#FFF"
     />
+
+
   return (
 
 
@@ -357,7 +365,7 @@ export default function HomeScreen({ navigation }) {
               longitude: location.coords.longitude,
             }}
             title="You"
-            description="anything"
+            description=""
           />
           {
             places.map((item, i) => <Marker
@@ -375,19 +383,6 @@ export default function HomeScreen({ navigation }) {
 
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   mapStyle: {
-//     width: Dimensions.get('window').width,
-//     height: Dimensions.get('window').height,
-//   },
-// });
 
 const IMAGE_SIZE = 200
 
@@ -461,4 +456,3 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 })
-
