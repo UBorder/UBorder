@@ -9,7 +9,7 @@ render(){
     return (
                 <View>
                     <TouchableOpacity>
-                        <Image />
+                        <Image source={require('../assets/saudi.png')} />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Image />
