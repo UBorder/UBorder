@@ -386,7 +386,7 @@ export default function HomeScreen({ navigation }) {
         icon="comment-question-outline"
         onPress={() => {
           console.log("hello");
-          navigation.navigate('Meznah')
+          navigation.navigate('Select language')
         }}
       />
     </View>
