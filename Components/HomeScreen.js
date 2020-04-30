@@ -281,12 +281,13 @@ export default function HomeScreen({ navigation }) {
   // console.log('places:')
   // console.log(places)
   bs = React.createRef()
-
+  let curfew_start = 17
+  let curfew_end = 9
+  
+  var today = new Date();
+  var time = today.getHours()
   renderInner = () => {
-    let curfew_start = 17
-    let curfew_end = 9
-    var today = new Date();
-    var time = today.getHours()
+   
     let content = time < curfew_start && time > curfew_end ? places.map((ele, i) =>
       <TouchableOpacity style={styles.panelButton} style={styles.panelButton} key={i} onPress={() => {
         console.log("--------------------------");
@@ -297,7 +298,7 @@ export default function HomeScreen({ navigation }) {
       }} >
         <Text style={styles.panelButtonTitle} >{ele.placeName}</Text>
       </TouchableOpacity>) :
-      <View style={styles.panelButton}>
+      <View style={styles.panelButtonDanger}>
         <Text style={styles.panelButtonTitle}>You are currently in curfew hours, you can't visit any places at the moment</Text>
       </View>
 
@@ -345,7 +346,7 @@ export default function HomeScreen({ navigation }) {
 
       <BottomSheet
         ref={bs}
-        snapPoints={['100%', 100]}
+        snapPoints={['100%', 100, 200]}
         renderContent={renderInner}
         initialSnap={1}
       />
@@ -368,12 +369,12 @@ export default function HomeScreen({ navigation }) {
             description=""
           />
           {
-            places.map((item, i) => <Marker
+            time < curfew_start && time > curfew_end ? places.map((item, i) => <Marker
               coordinate={item.coordinate}
               title={item.placeName}
               key={i}
               pinColor='green'
-            />)
+            />):<View></View>
           }
 
         </MapView>
@@ -448,6 +449,13 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     backgroundColor: '#318bfb',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  panelButtonDanger: {
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: '#c70038',
     alignItems: 'center',
     marginVertical: 10,
   },
