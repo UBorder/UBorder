@@ -16,7 +16,7 @@ class Chatbot extends Component {
     messages: [
       {
         _id: 1,
-        text: `Hi! ${global.username} I am Meznah 🤖 \n\nHow may I help you today?`,
+        text: `Hi ${global.username}! I am Meznah 🤖 \n\nHow may I help you today?`,
         createdAt: new Date(),
         user: BOT_USER
       }
